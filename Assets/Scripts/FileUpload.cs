@@ -2,11 +2,22 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Runtime.InteropServices;
+using TMPro;
 
 public class FileUpload : MonoBehaviour
 {
     [DllImport("__Internal")]
     private static extern void ImageUploaderCaptureClick();
+
+    public TextMeshProUGUI counter;
+
+    private void Start() {
+        ImageUploaderCaptureClick();
+    }
+
+    private void Update() {
+        counter.text = GameController.Instance.images.Count.ToString();
+    }
 
     IEnumerator LoadTexture(string url) {
         using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url);
