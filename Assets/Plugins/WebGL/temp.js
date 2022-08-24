@@ -1,5 +1,3 @@
-window.URL = window.URL || window.webkitURL;
-
 var ImageUploaderPlugin = {
   ImageUploaderCaptureClick: function() {
     if (!document.getElementById('ImageUploaderInput')) {
@@ -8,7 +6,7 @@ var ImageUploaderPlugin = {
       fileInput.id = 'ImageUploaderInput';
       fileInput.setAttribute('multiple', '');
       fileInput.setAttribute('accept', 'png, jpg');
-      fileInput.style.visibility = 'hidden';
+      // fileInput.style.visibility = 'hidden';
       fileInput.onchange = function(event) {
         for (let index = 0; index < event.target.files.length; index++) {
           const file = event.target.files[index];

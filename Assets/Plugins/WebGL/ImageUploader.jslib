@@ -1,4 +1,4 @@
-let ImageUploaderPlugin = {
+var ImageUploaderPlugin = {
   ImageUploaderCaptureClick: function() {
     if (!document.getElementById('ImageUploaderInput')) {
       const fileInput = document.createElement('input');
@@ -6,11 +6,11 @@ let ImageUploaderPlugin = {
       fileInput.id = 'ImageUploaderInput';
       fileInput.setAttribute('multiple', '');
       fileInput.setAttribute('accept', 'png, jpg');
-      fileInput.style.visibility = 'hidden';
+      // fileInput.style.visibility = 'hidden';
       fileInput.onchange = function(event) {
         for (let index = 0; index < event.target.files.length; index++) {
           const file = event.target.files[index];
-          SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file))
+          SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file) + '|' + file.fileName)
         }
       }
       document.body.appendChild(fileInput);
