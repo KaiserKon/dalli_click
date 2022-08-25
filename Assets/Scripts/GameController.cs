@@ -28,6 +28,16 @@ public class GameController : MonoBehaviour
         }
     }
 
+    [Header("Image Settings")]
+    public List<QuizImage> images = new List<QuizImage>();
+
+    [Header("Hexagon Grid Settings")]
+    [Min(0)]
+    public Vector2Int gridSize;
+    [Min(0)]
+    public float hexagonOuterSize = 1f;
+    [Min(0)]
+    public float hexagonInnerSize = 0f;
+    public bool isFlatTopped;
     public List<GameObject> hexagons;
-    public List<QuizImage> images;
 }

@@ -1159,26 +1159,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 2455560: function() {
+ 2455592: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 2455615: function($0) {
+ 2455647: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 2455663: function($0) {
+ 2455695: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 2455711: function() {
+ 2455743: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 2455766: function() {
+ 2455798: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 2455827: function() {
+ 2455859: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1284,17 +1284,16 @@ function stackTrace() {
 
 function _ImageUploaderCaptureClick() {
  if (!document.getElementById("ImageUploaderInput")) {
-  var fileInput = document.createElement("input");
+  const fileInput = document.createElement("input");
   fileInput.setAttribute("type", "file");
   fileInput.setAttribute("id", "ImageUploaderInput");
   fileInput.setAttribute("multiple", "");
   fileInput.setAttribute("accept", "png, jpg");
-  fileInput.onchange = function(event) {
-   for (let index = 0; index < event.target.files.length; index++) {
-    const file = event.target.files[index];
+  fileInput.onchange = (event => {
+   for (const file of event.target.files) {
     SendMessage("Canvas", "FileSelected", URL.createObjectURL(file));
    }
-  };
+  });
   document.body.appendChild(fileInput);
  }
 }

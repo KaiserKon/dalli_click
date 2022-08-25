@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ImagesSwitch : MonoBehaviour
 {
     public Button m_nextBtn;
+    public Button m_resetBtn;
     RawImage m_image;
     AspectRatioFitter m_ratioFitter;
     int m_imageIndex = 0;
@@ -16,15 +17,20 @@ public class ImagesSwitch : MonoBehaviour
         m_image = GetComponent<RawImage>();
         m_ratioFitter = GetComponent<AspectRatioFitter>();
 
-        Button btn = m_nextBtn.GetComponent<Button>();
-        btn.onClick.AddListener(OnSwitchImageBtn);
+        Button nextBtn = m_nextBtn.GetComponent<Button>();
+        nextBtn.onClick.AddListener(OnSwitchImageBtn);
+
+        Button resetBtn = m_resetBtn.GetComponent<Button>();
+        resetBtn.onClick.AddListener(OnResetImages);
     }
 
-    public void ResetImages() {
+    void OnResetImages() {
         GameController.Instance.images.Clear();
     }
 
     void OnSwitchImageBtn() {
+        if (GameController.Instance.images.Count == 0) return;
+
         if (m_imageIndex >= GameController.Instance.images.Count) m_imageIndex = 0;
 
         QuizImage qImage = GameController.Instance.images[m_imageIndex];

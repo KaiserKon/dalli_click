@@ -5,16 +5,7 @@ using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {
-    [Header("Grid Settings")]
-    [Min(0)]
-    public Vector2Int gridSize;
-
     [Header("Tile Settings")]
-    [Min(0)]
-    public float outerSize = 1f;
-    [Min(0)]
-    public float innerSize = 0f;
-    public bool isFlatTopped;
     public Material material;
 
     private void Start() {
@@ -29,13 +20,13 @@ public class HexGrid : MonoBehaviour
             GameController.Instance.hexagons.Clear();
         }
 
-        for (int y = 0; y < gridSize.y; y++) {
-            for (int x = 0; x < gridSize.x; x++) {
+        for (int y = 0; y < GameController.Instance.gridSize.y; y++) {
+            for (int x = 0; x < GameController.Instance.gridSize.x; x++) {
                 GameObject tile = new GameObject($"Hexagon ({x},{y})", typeof(HexRenderer));
                 tile.transform.position = GetPositionForHexFromCoordinate(new Vector2Int(x, y));
 
                 HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
-                hexRenderer.SetParamsAndDraw(outerSize, innerSize, material, isFlatTopped);
+                hexRenderer.SetParamsAndDraw(GameController.Instance.hexagonOuterSize, GameController.Instance.hexagonInnerSize, material, GameController.Instance.isFlatTopped);
 
                 tile.transform.SetParent(transform, false);
                 GameController.Instance.hexagons.Add(tile);
@@ -58,8 +49,6 @@ public class HexGrid : MonoBehaviour
     public void checkTileVisibility() {
         List<GameObject> nonVisible = GameController.Instance.hexagons.FindAll(hexagon => !hexagon.GetComponent<Renderer>().isVisible);
         nonVisible.ForEach(hexagon => {
-            Debug.Log("Delete Hexagon: " + hexagon.name);
-
             GameController.Instance.hexagons.Remove(hexagon);
             Destroy(hexagon);
         });
@@ -75,10 +64,10 @@ public class HexGrid : MonoBehaviour
         bool shouldOffset;
         float horizontalDist;
         float verticalDist;
-        float size = outerSize;
+        float size = GameController.Instance.hexagonOuterSize;
         float offset;
 
-        if (isFlatTopped) {
+        if (GameController.Instance.isFlatTopped) {
             shouldOffset = (column % 2) == 0;
             width = 2f * size;
             height = Mathf.Sqrt(3f) * size;
@@ -89,7 +78,6 @@ public class HexGrid : MonoBehaviour
             offset = shouldOffset ? height / 2 : 0;
 
             xPosition = column * horizontalDist;
-            //yPosition = ((row * verticalDist) - offset) + (height / 2f);
             yPosition = ((row * verticalDist) - offset);
         }
         else {
@@ -102,7 +90,6 @@ public class HexGrid : MonoBehaviour
 
             offset = shouldOffset ? width / 2 : 0;
 
-            //xPosition = ((column * horizontalDist) + offset ) - (width / 2f);
             xPosition = ((column * horizontalDist) + offset );
             yPosition = row * verticalDist;
         }

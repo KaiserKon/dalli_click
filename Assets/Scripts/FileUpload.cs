@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
+using UnityEditor;
 
 public class FileUpload : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class FileUpload : MonoBehaviour
 
     public TextMeshProUGUI counter;
 
+#if !UNITY_EDITOR
     private void Start() {
         ImageUploaderCaptureClick();
     }
@@ -18,11 +20,11 @@ public class FileUpload : MonoBehaviour
     private void Update() {
         counter.text = GameController.Instance.images.Count.ToString();
     }
+#endif
 
     IEnumerator LoadTexture(string url) {
         using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url);
         yield return uwr.SendWebRequest();
-        Debug.Log(uwr);
         if (uwr.error != null) Debug.LogError(uwr.error);
         else {
             Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
@@ -32,9 +34,5 @@ public class FileUpload : MonoBehaviour
 
     public void FileSelected(string url) {
         StartCoroutine(LoadTexture(url));
-    }
-
-    public void OnButtonPointerDown() {
-        ImageUploaderCaptureClick();
     }
 }
