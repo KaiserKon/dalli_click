@@ -13,6 +13,12 @@ const ImageUploaderPlugin = {
       };
       document.body.appendChild(fileInput);
     }
+  },
+  RemoveUploadButton: function() {
+    const imgBtn = document.getElementById('ImageUploaderInput');
+    if(imgBtn) {
+      imgBtn.style.visibility = 'hidden';
+    }
   }
 };
 mergeInto(LibraryManager.library, ImageUploaderPlugin);
